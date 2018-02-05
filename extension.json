@@ -1,0 +1,46 @@
+{
+	"name": "Google Analytics Page Views",
+	"author": "Solene",
+	"version": "1.0.0",
+	"url": "https://www.mediawiki.org/wiki/Extension:GoogleAnalyticsPageViews",
+	"descriptionmsg": "Sorted By Page View",
+	"license-name": "GPL-2.0+",
+	"type": "parserhook",
+	"ResourceModules": {
+		"ext.googleanalyticspageviews.js": {
+			"scripts": [
+				"resources/wikifab-google-analytics-page-views.js"				
+			]
+		},
+		"ext.googleanalyticspageviews.css": {
+			"styles": [
+				"resources/wikifab-google-analytics-page-views.css"			
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "GoogleAnalyticsPageViews"
+	},
+	"AutoloadClasses": {
+		"GoogleAnalyticsPageViews\\SpecialGoogleAnalyticsPageViews": "includes/SpecialGoogleAnalyticsPageViews.php",
+		"GoogleAnalyticsPageViews\\GoogleAnalyticsPageViewsCore":"includes/GoogleAnalyticsPageViewsCore.php",
+		"GoogleAnalyticsPageViews\\GoogleAnalyticsPageViewsQueryParser" : "includes/GoogleAnalyticsPageViewsQueryParser.php"
+	},
+	"SpecialPages": {
+		"SortedByPageView": "GoogleAnalyticsPageViews\\SpecialGoogleAnalyticsPageViews"
+	},
+	"ExtensionMessagesFiles": {
+		"SortedByPageView": "GoogleAnalyticsPageViews.i18n.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"GoogleAnalyticsPageViews\\GoogleAnalyticsPageViewsQueryParser::onParserSetup"
+		],
+		"BeforePageDisplay": [
+			"GoogleAnalyticsPageViews\\GoogleAnalyticsPageViewsQueryParser::onBeforePageDisplay"
+		]
+	},
+	
+	"manifest_version": 1
+}

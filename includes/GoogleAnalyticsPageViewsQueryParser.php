@@ -76,7 +76,6 @@ class GoogleAnalyticsPageViewsQueryParser {
         } else {
 
             $prop =  $parser->getOutput()->getProperty( 'PageViewsCount') ;
-            var_dump($prop);
 
             return $prop;
 

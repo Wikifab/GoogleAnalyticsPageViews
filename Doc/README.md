@@ -5,6 +5,20 @@ This extension allow you to display and specially to record in the page properti
 
 ## Installation 
 Firstly, the extension "SortedByPageView" depends of the "GoogleAnalyticsMetrics" extension, without it you can't use "GoogleAnalyticsPageViews".
+
+As it depends on "GoogleAnanlyticsMetrics" you also need to put your own settings on your localSettings.php file. 
+
+	$wgGoogleAnalyticsMetricsAllowed ='*'; // the "*" allow all metrics 
+	$wgGoogleAnalyticsMetricsServiceAccountPath ='Your/Path/To/YourJsonFileName.json';
+	$wgGoogleAnalyticsMetricsEmail='your client_email in your json file';
+	$wgGoogleAnalyticsMetricsViewID = 'This is your account's id you can find directly on Google Analytics in your settings.';
+	$wgGoogleAnalyticsMetricsDevelopersKey = 'your private Key in your json file';
+	$wgGoogleAnanlyticsMetricsAppName = 'The name of you application';
+	
+	
+	// Load the Google API PHP Client Library.
+	require_once __DIR__ . '/vendor/autoload.php';
+	
 Download and extract the extension file inside your "extension" repository. The extension's repository must be called :"GoogleAnalyticsPageViews".
 
 Once you load the extension, at the end of your LocalSettings.php file add the following line :
@@ -13,7 +27,8 @@ Once you load the extension, at the end of your LocalSettings.php file add the f
 
 ## Use
 
-You just need to had this line on the page you want, it can be on a template, a form or just an article. 
+You just need to had those lines on the page you want, it can be on a template, a form or just an article. 
 
+	{{#recordPageViews:}}
 	{{#getPageViews:}}
 

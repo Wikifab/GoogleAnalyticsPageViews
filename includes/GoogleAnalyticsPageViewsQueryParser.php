@@ -44,7 +44,6 @@ class GoogleAnalyticsPageViewsQueryParser {
 
        $pageViewsCounter =  \GoogleAnalyticsMetricsHooks::getMetric('pageviews', '2005-01-01', 'today');
        $parser->getOutput()->setProperty( 'PageViewsCount', $pageViewsCounter );
-       var_dump($pageViewsCounter);
 
    }
 

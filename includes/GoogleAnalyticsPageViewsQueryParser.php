@@ -44,34 +44,31 @@ class GoogleAnalyticsPageViewsQueryParser {
 
        $pageViewsCounter =  \GoogleAnalyticsMetricsHooks::getMetric('pageviews', '2005-01-01', 'today');
        $parser->getOutput()->setProperty( 'PageViewsCount', $pageViewsCounter );
+       var_dump($pageViewsCounter);
 
    }
 
 
     public static function wfPageViewCountGetPageViews(\Parser $parser) {
-        $pageId = $parser->getTitle()->getArticleID();
-        if ( isset( $page) ) {
-            $title = \Title::newFromText( $page);
-            if ( !$title || $title->getArticleID() === 0 ) {
-                return '<span class="error">Invalid page ' . htmlspecialchars( $page ) . ' specified.</span>';
-            }
-
+        $pageTitle = $parser->getTitle();
+        if ( isset( $pageTitle) ) {
+            $pageID = $pageTitle->getArticleID();
             $dbr = wfGetDB( DB_SLAVE );
-            $propValue = base64_encode($dbr->selectField( 'page_props',
-                'pp_value',
-                array( 'pp_page' => $title->getArticleID(), 'pp_propname' => "PageViewsCount" ), // where conditions
-                __METHOD__
-                ));
-            if ( $propValue === false ) {
+            $res = $dbr->select( 'page_props',
+                array(
+                    'pp_value'
+                ),
+                array(
+                    'pp_page' => $pageID,
+                    // Keep backward compatibility with
+                    // the page property name for
+                    // Semantic Forms.
+                    'pp_propname' => array( 'PageViewsCount' )
+                )
+            );
 
-                return '<span class="error">No prop set for page ' . htmlspecialchars( $page ) . ' specified.</span>';
-            }
-
-            $prop = unserialize(base64_decode($propValue));
-            if ( !$parser->isValidHalfParsedText( $prop ) ) {
-                return '<span class="error">Error retrieving property</span>';
-            } else {
-                return $parser->unserializeHalfParsedText( $prop );
+            if ( $row = $dbr->fetchRow( $res ) ) {
+                return $row['pp_value'];
             }
         } else {
 
